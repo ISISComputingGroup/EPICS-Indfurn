@@ -17,6 +17,7 @@ record(bo, "$(P)DISABLE") {
 }
 
 record(stringin, "$(P)VERSION") {
+    field(DESC, "Controller software version")
     field(INP, "@indfurn.proto getVersion $(PORT)")
     field(SCAN, "10 second")
     field(PINI, "YES")
@@ -32,6 +33,7 @@ record(stringin, "$(P)VERSION") {
 # Main device temperature
 
 record(ai, "$(P)TEMP") {
+    field(DESC, "Temperature")
     field(SCAN, "1 second")
     field(INP, "@indfurn.proto getTcTemp $(PORT)")
     field(DTYP, "stream")
@@ -41,9 +43,13 @@ record(ai, "$(P)TEMP") {
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:TEMP")
     field(SDIS, "$(P)DISABLE")
+    
+    info(archive, "VAL")
+    info(interest, "HIGH")
 }
 
 record(ao, "$(P)TEMP:SP") {
+    field(DESC, "Temperature setpoint")
     field(OUT, "@indfurn.proto setSp $(PORT)")
     field(DTYP, "stream")
     field(PREC, "2")
@@ -55,6 +61,7 @@ record(ao, "$(P)TEMP:SP") {
 }
 
 record(ai, "$(P)TEMP:SP:RBV") {
+    field(DESC, "Temperature setpoint readback")
     field(SCAN, "1 second")
     field(INP, "@indfurn.proto getSp $(PORT)")
     field(DTYP, "stream")
@@ -71,6 +78,7 @@ record(ai, "$(P)TEMP:SP:RBV") {
 # Diagnostic temperatures
 
 record(ai, "$(P)PIPE:TEMP") {
+    field(DESC, "Pipe temperature")
     field(SCAN, "1 second")
     field(INP, "@indfurn.proto getPipeTemp $(PORT)")
     field(DTYP, "stream")
@@ -80,9 +88,13 @@ record(ai, "$(P)PIPE:TEMP") {
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:PIPE:TEMP")
     field(SDIS, "$(P)DISABLE")
+    
+    info(archive, "VAL")
+    info(interest, "LOW")
 }
 
 record(ai, "$(P)CAPACITOR:TEMP") {
+    field(DESC, "Capacitor bank temperature")
     field(SCAN, "1 second")
     field(INP, "@indfurn.proto getCapacitorTemp $(PORT)")
     field(DTYP, "stream")
@@ -92,9 +104,13 @@ record(ai, "$(P)CAPACITOR:TEMP") {
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:CAPACITOR:TEMP")
     field(SDIS, "$(P)DISABLE")
+    
+    info(archive, "VAL")
+    info(interest, "LOW")
 }
 
 record(ai, "$(P)FET:TEMP") {
+    field(DESC, "Switch element (FET) temperature")
     field(SCAN, "1 second")
     field(INP, "@indfurn.proto getFetTemp $(PORT)")
     field(DTYP, "stream")
@@ -104,6 +120,9 @@ record(ai, "$(P)FET:TEMP") {
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:FET:TEMP")
     field(SDIS, "$(P)DISABLE")
+    
+    info(archive, "VAL")
+    info(interest, "LOW")
 }
 
 
@@ -111,6 +130,7 @@ record(ai, "$(P)FET:TEMP") {
 
 
 record(bi, "$(P)PID:DIRECTION") {
+    field(DESC, "PID controller direction")
     field(INP, "@indfurn.proto getPidDir $(PORT)")
     field(DTYP, "stream")
     field(SCAN, "1 second")
@@ -120,6 +140,9 @@ record(bi, "$(P)PID:DIRECTION") {
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:PID:DIRECTION")
     field(SDIS, "$(P)DISABLE")
+    
+    info(archive, "VAL")
+    info(interest, "HIGH")
 }
 
 record(bo, "$(P)PID:DIRECTION:SP") {
@@ -133,64 +156,143 @@ record(bo, "$(P)PID:DIRECTION:SP") {
     field(SDIS, "$(P)DISABLE")
 }
 
+record(ai, "$(P)OUTPUT") {
+    field(DESC, "Power supply output")
+    field(INP, "@indfurn.proto getOutput $(PORT)")
+    field(DTYP, "stream")
+    field(SCAN, "1 second")
+    field(PREC, "2")
+    field(EGU, "%")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:OUTPUT")
+    field(SDIS, "$(P)DISABLE")
+    
+    info(archive, "VAL")
+    info(interest, "LOW")
+}
 
+record(ao, "$(P)OUTPUT:SP") {
+    field(OUT, "@indfurn.proto setOutput $(PORT)")
+    field(DTYP, "stream")
+    field(PREC, "2")
+    field(EGU, "%")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:OUTPUT:SP")
+    field(SDIS, "$(P)DISABLE")
+}
 
 record(ai, "$(P)PID:LIMIT:LOWER") {
+    field(DESC, "Lower limit of PID output")
     field(INP, "@indfurn.proto getPidLowerLimit $(PORT)")
     field(DTYP, "stream")
     field(SCAN, "1 second")
     field(PREC, "2")
-    field(EGU, "")
+    field(EGU, "%")
     
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:PID:LIMIT:LOWER")
     field(SDIS, "$(P)DISABLE")
+    
+    info(archive, "VAL")
+    info(interest, "LOW")
 }
 
 record(ao, "$(P)PID:LIMIT:LOWER:SP") {
     field(OUT, "@indfurn.proto setPidLowerLimit($(P)) $(PORT)")
     field(DTYP, "stream")
     field(PREC, "2")
-    field(EGU, "")
+    field(EGU, "%")
     
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:PID:LIMIT:LOWER:SP")
     field(SDIS, "$(P)DISABLE")
 }
 
-
-
-
-
-
 record(ai, "$(P)PID:LIMIT:UPPER") {
+    field(DESC, "Upper limit of PID output")
     field(INP, "@indfurn.proto getPidUpperLimit $(PORT)")
     field(DTYP, "stream")
     field(SCAN, "1 second")
     field(PREC, "2")
-    field(EGU, "")
+    field(EGU, "%")
     
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:PID:LIMIT:UPPER")
     field(SDIS, "$(P)DISABLE")
+    
+    info(archive, "VAL")
+    info(interest, "LOW")
 }
 
 record(ao, "$(P)PID:LIMIT:UPPER:SP") {
     field(OUT, "@indfurn.proto setPidUpperLimit($(P)) $(PORT)")
     field(DTYP, "stream")
     field(PREC, "2")
-    field(EGU, "")
+    field(EGU, "%")
     
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:PID:LIMIT:UPPER:SP")
     field(SDIS, "$(P)DISABLE")
 }
 
+record(ai, "$(P)PSU:VOLT") {
+    field(DESC, "Power supply voltage")
+    field(INP, "@indfurn.proto getPsuVoltage $(PORT)")
+    field(DTYP, "stream")
+    field(SCAN, "1 second")
+    field(PREC, "2")
+    field(EGU, "V")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:PSU:VOLT")
+    field(SDIS, "$(P)DISABLE")
+    
+    info(archive, "VAL")
+    info(interest, "LOW")
+}
 
+record(ao, "$(P)PSU:VOLT:SP") {
+    field(OUT, "@indfurn.proto setPsuVoltage $(PORT)")
+    field(DTYP, "stream")
+    field(PREC, "2")
+    field(EGU, "V")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:PSU:VOLT:SP")
+    field(SDIS, "$(P)DISABLE")
+}
 
+record(ai, "$(P)PSU:CURR") {
+    field(DESC, "Maximum power supply current")
+    field(INP, "@indfurn.proto getPsuCurrent $(PORT)")
+    field(DTYP, "stream")
+    field(SCAN, "1 second")
+    field(PREC, "2")
+    field(EGU, "A")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:PSU:CURR")
+    field(SDIS, "$(P)DISABLE")
+    
+    info(archive, "VAL")
+    info(interest, "LOW")
+}
 
+record(ao, "$(P)PSU:CURR:SP") {
+    field(OUT, "@indfurn.proto setPsuCurrent $(PORT)")
+    field(DTYP, "stream")
+    field(PREC, "2")
+    field(EGU, "A")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:PSU:CURR:SP")
+    field(SDIS, "$(P)DISABLE")
+}
 
 record(bi, "$(P)PID:MODE") {
+    field(DESC, "Mode of PID controller")
     field(INP, "@indfurn.proto getPidMode $(PORT)")
     field(DTYP, "stream")
     field(SCAN, "1 second")
@@ -200,6 +302,9 @@ record(bi, "$(P)PID:MODE") {
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:PID:MODE")
     field(SDIS, "$(P)DISABLE")
+    
+    info(archive, "VAL")
+    info(interest, "LOW")
 }
 
 record(bo, "$(P)PID:MODE:SP") {
@@ -213,11 +318,8 @@ record(bo, "$(P)PID:MODE:SP") {
     field(SDIS, "$(P)DISABLE")
 }
 
-
-
-# low-level (?) controls
-
 record(longin, $(P)SAMPLETIME) {
+    field(DESC, "PID controller sample time")
     field(SCAN, "1 second")
     field(INP, "@indfurn.proto getSampleTime $(PORT)")
     field(DTYP, "stream")
@@ -226,6 +328,9 @@ record(longin, $(P)SAMPLETIME) {
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:SAMPLETIME")
     field(SDIS, "$(P)DISABLE")
+    
+    info(archive, "VAL")
+    info(interest, "LOW")
 }
 
 record(longout, "$(P)SAMPLETIME:SP") {
@@ -243,6 +348,7 @@ record(longout, "$(P)SAMPLETIME:SP") {
 # Alarms from hardware
 #
 record(bi, "$(P)ALARM:PSUTEMP") {
+    field(DESC, "Power supply overtemp alarm")
     field(SCAN, "1 second")
     field(INP, "@indfurn.proto getPsuHeatAlarm $(PORT)")
     field(DTYP, "stream")
@@ -250,9 +356,11 @@ record(bi, "$(P)ALARM:PSUTEMP") {
     field(ONAM, "ALARM")
     field(OSV, "MAJOR")
     info("ALARM", "INDFURN")
+    info(archive, "VAL")
 }
 
 record(bi, "$(P)ALARM:PSUVOLT") {
+    field(DESC, "Power supply overvolt alarm")
     field(SCAN, "1 second")
     field(INP, "@indfurn.proto getPsuVoltAlarm $(PORT)")
     field(DTYP, "stream")
@@ -260,6 +368,7 @@ record(bi, "$(P)ALARM:PSUVOLT") {
     field(ONAM, "ALARM")
     field(OSV, "MAJOR")
     info("ALARM", "INDFURN")
+    info(archive, "VAL")
 }
 
 record(bo, "$(P)ALARM:CLEAR") {
@@ -270,6 +379,7 @@ record(bo, "$(P)ALARM:CLEAR") {
 }
 
 record(bi, "$(P)COOLINGWATERFLOW") {
+    field(DESC, "Status of cooling water flow")
     field(SCAN, "1 second")
     field(INP, "@indfurn.proto getCWFlow $(PORT)")
     field(DTYP, "stream")
@@ -277,6 +387,7 @@ record(bi, "$(P)COOLINGWATERFLOW") {
     field(ONAM, "OK")
     field(ZSV, "MAJOR")
     info("ALARM", "INDFURN")
+    info(archive, "VAL")
 }
 
 
@@ -287,6 +398,7 @@ record(bi, "$(P)COOLINGWATERFLOW") {
 
 record(waveform, "$(P)ARBITRARY:SP")
 {
+    field(DESC, "Arbitrary command input")
     field(NELM, "512")
     field(FTVL, "CHAR")
     field(FLNK, "$(P)ARBITRARY:SP:TRIGGER")
@@ -306,11 +418,56 @@ record(calcout, "$(P)ARBITRARY:SP:TRIGGER")
 
 record(waveform, "$(P)ARBITRARY")
 {
+    field(DESC, "Arbitrary command response")
     field(NELM, "512")
     field(FTVL, "CHAR")
     field(PINI, "YES")
 }
 
+record(bo, "$(P)PSU:CONTROLMODE:SP") {
+    field(DESC, "Power supply control mode")
+    field(OUT, "@indfurn.proto setControlMode $(PORT)")
+    field(DTYP, "stream")
+    field(ZNAM, "Local")
+    field(ONAM, "Remote")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:PSU:CONTROLMODE:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(bo, "$(P)PSU:POWER:SP") {
+    field(OUT, "@indfurn.proto setPsuPower $(PORT)")
+    field(DTYP, "stream")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:PSU:POWER:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(bo, "$(P)PSU:FAN:SP") {
+    field(OUT, "@indfurn.proto setPsuFan $(PORT)")
+    field(DTYP, "stream")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:PSU:FAN:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(bo, "$(P)PSU:HF:SP") {
+    field(OUT, "@indfurn.proto setHf $(PORT)")
+    field(DTYP, "stream")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:PSU:HF:SP")
+    field(SDIS, "$(P)DISABLE")
+}
 
 #
 # Simulation records
@@ -358,6 +515,13 @@ record(ao, "$(P)SIM:PID:LIMIT:LOWER") {
 
 alias("$(P)SIM:PID:LIMIT:LOWER", "$(P)SIM:PID:LIMIT:LOWER:SP")
 
+record(ao, "$(P)SIM:OUTPUT") {
+    field(VAL, "0")
+    field(PINI, "YES")
+}
+
+alias("$(P)SIM:OUTPUT", "$(P)SIM:OUTPUT:SP")
+
 record(ao, "$(P)SIM:PID:LIMIT:UPPER") {
     field(VAL, "0")
     field(PINI, "YES")
@@ -379,3 +543,36 @@ record(bo, "$(P)SIM:PID:MODE") {
 
 alias("$(P)SIM:PID:MODE", "$(P)SIM:PID:MODE:SP")
 
+record(ao, "$(P)SIM:PSU:VOLT") {
+    field(VAL, "0")
+    field(PINI, "YES")
+}
+
+alias("$(P)SIM:PSU:VOLT", "$(P)SIM:PSU:VOLT:SP")
+
+record(ao, "$(P)SIM:PSU:CURR") {
+    field(VAL, "0")
+    field(PINI, "YES")
+}
+
+alias("$(P)SIM:PSU:CURR", "$(P)SIM:PSU:CURR:SP")
+
+record(bo, "$(P)SIM:PSU:CONTROLMODE:SP") {
+    field(ZNAM, "Local")
+    field(ONAM, "Remote")
+}
+
+record(bo, "$(P)SIM:PSU:POWER:SP") {
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+}
+
+record(bo, "$(P)SIM:PSU:FAN:SP") {
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+}
+
+record(bo, "$(P)SIM:PSU:HF:SP") {
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+}

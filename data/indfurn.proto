@@ -161,3 +161,53 @@ arbitrary {
 	# Will always get a reply of some sort to a correct command.
 	in "%(\$1ARBITRARY)#512s";
 }
+
+setPsuVoltage {
+    out ">powV %2f";
+    in "<ack";
+}
+
+getPsuVoltage {
+    out "?powV";
+    in "<powv %f";
+}
+
+setPsuCurrent {
+    out ">powI %2f";
+    in "<ack";
+}
+
+getPsuCurrent {
+    out "?powI";
+    in "<powa %f";
+}
+
+setOutput {
+    out ">pidOUTM %2f";
+    in "<ack";
+}
+
+getOutput {
+    out "?pidOUTM";
+    in "<pidoutm %f";
+}
+
+setControlMode {
+    out ">pow%{L|R}";
+    in "<ack";
+}
+
+setPsuPower {
+    out ">pow%{OFF|ON}";
+    in "<ack";
+}
+
+setPsuFan {
+    out ">fan%{OFF|ON}";
+    in "<ack";
+}
+
+setHf {
+    out ">osc%{OFF|ON}";
+    in "<ack";
+}
