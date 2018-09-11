@@ -1,0 +1,33 @@
+record(ai, "$(P)$(CTRL)") {
+    field(SCAN, "1 second")
+    field(INP, "@indfurn.proto get$(CTRL) $(PORT)")
+    field(DTYP, "stream")
+    field(PREC, "2")
+    field(EGU, "")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:$(CTRL)")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(ao, "$(P)$(CTRL):SP") {
+    field(OUT, "@indfurn.proto set$(CTRL)($(P)) $(PORT)")
+    field(DTYP, "stream")
+    field(PREC, "2")
+    field(EGU, "")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:$(CTRL):SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+#
+# Simulation records
+#
+
+record(ao, "$(P)SIM:$(CTRL)") {
+    field(VAL, "0")
+    field(PINI, "YES")
+}
+
+alias("$(P)SIM:$(CTRL)", "$(P)SIM:$(CTRL):SP")

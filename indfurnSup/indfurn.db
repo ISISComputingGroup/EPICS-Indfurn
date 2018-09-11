@@ -1,0 +1,381 @@
+record(bo, "$(P)SIM") {
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
+    field(VAL, "$(RECSIM=0)")
+    field(PINI, "YES")
+}
+
+record(bo, "$(P)DISABLE") {
+    field(DESC, "Disable comms")
+    field(PINI, "YES")
+    field(VAL, "$(DISABLE=0)")
+    field(OMSL, "supervisory")
+    field(ZNAM, "COMMS ENABLED")
+    field(ONAM, "COMMS DISABLED")
+}
+
+record(stringin, "$(P)VERSION") {
+    field(INP, "@indfurn.proto getVersion $(PORT)")
+    field(SCAN, "10 second")
+    field(PINI, "YES")
+    field(DTYP, "stream")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:VERSION")
+    field(SDIS, "$(P)DISABLE")
+}
+
+
+
+# Main device temperature
+
+record(ai, "$(P)TEMP") {
+    field(SCAN, "1 second")
+    field(INP, "@indfurn.proto getTcTemp $(PORT)")
+    field(DTYP, "stream")
+    field(PREC, "2")
+    field(EGU, "C")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:TEMP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(ao, "$(P)TEMP:SP") {
+    field(OUT, "@indfurn.proto setSp $(PORT)")
+    field(DTYP, "stream")
+    field(PREC, "2")
+    field(EGU, "C")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:TEMP:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(ai, "$(P)TEMP:SP:RBV") {
+    field(SCAN, "1 second")
+    field(INP, "@indfurn.proto getSp $(PORT)")
+    field(DTYP, "stream")
+    field(PREC, "2")
+    field(EGU, "C")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:TEMP:SP:RBV")
+    field(SDIS, "$(P)DISABLE")
+}
+
+
+
+# Diagnostic temperatures
+
+record(ai, "$(P)PIPE:TEMP") {
+    field(SCAN, "1 second")
+    field(INP, "@indfurn.proto getPipeTemp $(PORT)")
+    field(DTYP, "stream")
+    field(PREC, "2")
+    field(EGU, "C")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:PIPE:TEMP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(ai, "$(P)CAPACITOR:TEMP") {
+    field(SCAN, "1 second")
+    field(INP, "@indfurn.proto getCapacitorTemp $(PORT)")
+    field(DTYP, "stream")
+    field(PREC, "2")
+    field(EGU, "C")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:CAPACITOR:TEMP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(ai, "$(P)FET:TEMP") {
+    field(SCAN, "1 second")
+    field(INP, "@indfurn.proto getFetTemp $(PORT)")
+    field(DTYP, "stream")
+    field(PREC, "2")
+    field(EGU, "C")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:FET:TEMP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+
+
+
+
+record(bi, "$(P)PID:DIRECTION") {
+    field(INP, "@indfurn.proto getPidDir $(PORT)")
+    field(DTYP, "stream")
+    field(SCAN, "1 second")
+    field(ZNAM, "Heating")
+    field(ONAM, "Cooling")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:PID:DIRECTION")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(bo, "$(P)PID:DIRECTION:SP") {
+    field(OUT, "@indfurn.proto setPidDir $(PORT)")
+    field(DTYP, "stream")
+    field(ZNAM, "Heating")
+    field(ONAM, "Cooling")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:PID:DIRECTION:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+
+
+record(ai, "$(P)PID:LIMIT:LOWER") {
+    field(INP, "@indfurn.proto getPidLowerLimit $(PORT)")
+    field(DTYP, "stream")
+    field(SCAN, "1 second")
+    field(PREC, "2")
+    field(EGU, "")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:PID:LIMIT:LOWER")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(ao, "$(P)PID:LIMIT:LOWER:SP") {
+    field(OUT, "@indfurn.proto setPidLowerLimit($(P)) $(PORT)")
+    field(DTYP, "stream")
+    field(PREC, "2")
+    field(EGU, "")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:PID:LIMIT:LOWER:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+
+
+
+
+
+record(ai, "$(P)PID:LIMIT:UPPER") {
+    field(INP, "@indfurn.proto getPidUpperLimit $(PORT)")
+    field(DTYP, "stream")
+    field(SCAN, "1 second")
+    field(PREC, "2")
+    field(EGU, "")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:PID:LIMIT:UPPER")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(ao, "$(P)PID:LIMIT:UPPER:SP") {
+    field(OUT, "@indfurn.proto setPidUpperLimit($(P)) $(PORT)")
+    field(DTYP, "stream")
+    field(PREC, "2")
+    field(EGU, "")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:PID:LIMIT:UPPER:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+
+
+
+
+record(bi, "$(P)PID:MODE") {
+    field(INP, "@indfurn.proto getPidMode $(PORT)")
+    field(DTYP, "stream")
+    field(SCAN, "1 second")
+    field(ZNAM, "Automatic")
+    field(ONAM, "Manual")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:PID:MODE")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(bo, "$(P)PID:MODE:SP") {
+    field(OUT, "@indfurn.proto setPidMode $(PORT)")
+    field(DTYP, "stream")
+    field(ZNAM, "Automatic")
+    field(ONAM, "Manual")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:PID:MODE:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+
+
+# low-level (?) controls
+
+record(longin, $(P)SAMPLETIME) {
+    field(SCAN, "1 second")
+    field(INP, "@indfurn.proto getSampleTime $(PORT)")
+    field(DTYP, "stream")
+    field(EGU, "ms")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:SAMPLETIME")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(longout, "$(P)SAMPLETIME:SP") {
+    field(OUT, "@indfurn.proto setSampleTime $(PORT)")
+    field(DTYP, "stream")
+    field(EGU, "ms")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:SAMPLETIME:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+
+#
+# Alarms from hardware
+#
+record(bi, "$(P)ALARM:PSUTEMP") {
+    field(SCAN, "1 second")
+    field(INP, "@indfurn.proto getPsuHeatAlarm $(PORT)")
+    field(DTYP, "stream")
+    field(ZNAM, "OK")
+    field(ONAM, "ALARM")
+    field(OSV, "MAJOR")
+    info("ALARM", "INDFURN")
+}
+
+record(bi, "$(P)ALARM:PSUVOLT") {
+    field(SCAN, "1 second")
+    field(INP, "@indfurn.proto getPsuVoltAlarm $(PORT)")
+    field(DTYP, "stream")
+    field(ZNAM, "OK")
+    field(ONAM, "ALARM")
+    field(OSV, "MAJOR")
+    info("ALARM", "INDFURN")
+}
+
+record(bo, "$(P)ALARM:CLEAR") {
+    field(OUT, "@indfurn.proto clearAlarms $(PORT)")
+    field(DTYP, "stream")
+    field(ZNAM, "CLEAR")
+    field(ONAM, "CLEAR")
+}
+
+record(bi, "$(P)COOLINGWATERFLOW") {
+    field(SCAN, "1 second")
+    field(INP, "@indfurn.proto getCWFlow $(PORT)")
+    field(DTYP, "stream")
+    field(ZNAM, "ALARM")
+    field(ONAM, "OK")
+    field(ZSV, "MAJOR")
+    info("ALARM", "INDFURN")
+}
+
+
+#
+# Arbitrary commands
+#
+
+
+record(waveform, "$(P)ARBITRARY:SP")
+{
+    field(NELM, "512")
+    field(FTVL, "CHAR")
+    field(FLNK, "$(P)ARBITRARY:SP:TRIGGER")
+    field(ASG, "$(ARBITRARY_ASG)")
+}
+
+record(calcout, "$(P)ARBITRARY:SP:TRIGGER")
+{
+    field(INPA, "$(P)ARBITRARY:SP.NORD")
+	# Only send if length of command is
+	# Use greater than one to account for null terminator
+	field(CALC, "A > 1") 
+	field(OOPT, "When Non-zero")
+    field(DTYP, "stream")
+    field(OUT,  "@indfurn.proto arbitrary($(P)) $(PORT)")
+}
+
+record(waveform, "$(P)ARBITRARY")
+{
+    field(NELM, "512")
+    field(FTVL, "CHAR")
+    field(PINI, "YES")
+}
+
+
+#
+# Simulation records
+#
+
+record(stringout, "$(P)SIM:VERSION") {
+    field(VAL, "INDFURN RECSIM")
+    field(PINI, "YES")
+}
+
+record(ao, "$(P)SIM:TEMP") {
+    field(VAL, "0")
+    field(PINI, "YES")
+}
+
+record(ao, "$(P)SIM:PIPE:TEMP") {
+    field(VAL, "0")
+    field(PINI, "YES")
+}
+
+record(ao, "$(P)SIM:CAPACITOR:TEMP") {
+    field(VAL, "0")
+    field(PINI, "YES")
+}
+
+record(ao, "$(P)SIM:FET:TEMP") {
+    field(VAL, "0")
+    field(PINI, "YES")
+}
+
+alias("$(P)SIM:TEMP", "$(P)SIM:TEMP:SP")
+alias("$(P)SIM:TEMP", "$(P)SIM:TEMP:SP:RBV")
+
+record(ao, "$(P)SIM:SAMPLETIME") {
+    field(VAL, "0")
+    field(PINI, "YES")
+}
+
+alias("$(P)SIM:SAMPLETIME", "$(P)SIM:SAMPLETIME:SP")
+
+record(ao, "$(P)SIM:PID:LIMIT:LOWER") {
+    field(VAL, "0")
+    field(PINI, "YES")
+}
+
+alias("$(P)SIM:PID:LIMIT:LOWER", "$(P)SIM:PID:LIMIT:LOWER:SP")
+
+record(ao, "$(P)SIM:PID:LIMIT:UPPER") {
+    field(VAL, "0")
+    field(PINI, "YES")
+}
+
+alias("$(P)SIM:PID:LIMIT:UPPER", "$(P)SIM:PID:LIMIT:UPPER:SP")
+
+record(bo, "$(P)SIM:PID:DIRECTION") {
+    field(ZNAM, "Heating")
+    field(ONAM, "Cooling")
+}
+
+alias("$(P)SIM:PID:DIRECTION", "$(P)SIM:PID:DIRECTION:SP")
+
+record(bo, "$(P)SIM:PID:MODE") {
+    field(ZNAM, "Automatic")
+    field(ONAM, "Manual")
+}
+
+alias("$(P)SIM:PID:MODE", "$(P)SIM:PID:MODE:SP")
+

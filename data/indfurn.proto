@@ -1,0 +1,163 @@
+Terminator = CR LF;
+
+getVersion {
+    out "?ver";
+    in "<%#s";
+}
+
+# PID controller setpoint
+setSp {
+    out ">pidSP %2f";
+    in "<ack";
+}
+
+# PID controller setpoint readback
+getSp {
+    out "?pidSP";
+    in "<pidsp %f";
+}
+
+# Temperature of thermocouple
+getTcTemp {
+    out "?tempTC";
+    in "<temptc %f";
+}
+
+# pipe temp. from tmp36 AnalogDevices   
+getPipeTemp {
+    out "?tempP";
+    in "<tempp %f";
+}
+
+# cap bank temp. from tmp36 AnalogDevices
+getCapacitorTemp {
+    out "?tempC";
+    in "<tempc %f";
+}
+
+# switch element (fet) temp. from tmp36 AnalogDevices
+getFetTemp {
+    out "?tempS";
+    in "<temps %f";
+}
+
+
+# All PID commands: Because you have to set all 3 parameters at a time, 
+# update the values (from hardware) immediately after sending them.
+getP {
+    out "?pidTu";
+    in "<pidtu %f %*f %*f";
+}
+
+getI {
+    out "?pidTu";
+    in "<pidtu %*f %f %*f";
+}
+
+getD {
+    out "?pidTu";
+    in "<pidtu %*f %*f %f";
+}
+
+setP {
+    out ">pidTu %2f %(\$1I)2f %(\$1D)2f";
+    in "<ack";
+    out "?pidTu";
+    in "<pidtu %(\$1P)f %(\$1I)f %(\$1D)f";
+}
+
+setI {
+    out ">pidTu %(\$1P)2f %2f %(\$1D)2f";
+    in "<ack";
+    out "?pidTu";
+    in "<pidtu %(\$1P)f %(\$1I)f %(\$1D)f";
+}
+
+setD {
+    out ">pidTu %(\$1P)2f %(\$1I)2f %2f";
+    in "<ack";
+    out "?pidTu";
+    in "<pidtu %(\$1P)f %(\$1I)f %(\$1D)f";
+}
+
+getSampleTime {
+    out "?pidSt";
+    in "<pidSt %i";
+}
+
+setSampleTime {
+    out ">pidSt %i";
+    in "<ack";
+}
+
+getPidDir {
+    out "?pidDir";
+    in "<pidDir %{p|n}";
+}
+
+setPidDir {
+    out ">pidDir %{p|n}";
+    in "<ack";
+}
+
+getPidLowerLimit {
+    out "?pidOUTL";
+    in "<pidoutl %f %*f";
+}
+
+setPidLowerLimit {
+    out ">pidOUTL %2f %(\$1PID:LIMIT:UPPER)2f";
+    in "<ack";
+    out "?pidOUTL";
+    in "<pidoutl %(\$1PID:LIMIT:LOWER)f %(\$1PID:LIMIT:UPPER)f";
+}
+
+
+getPidUpperLimit {
+    out "?pidOUTL";
+    in "<pidoutl %*f %f";
+}
+
+setPidUpperLimit {
+    out ">pidOUTL %(\$1PID:LIMIT:LOWER)2f %2f";
+    in "<ack";
+    out "?pidOUTL";
+    in "<pidoutl %(\$1PID:LIMIT:LOWER)f %(\$1PID:LIMIT:UPPER)f";
+}
+
+getPidMode {
+    out "?pidMode";
+    in "<pidMode %{a|m}";
+}
+
+setPidMode {
+    out ">pidMode %{a|m}";
+    in "<ack";
+}
+
+getPsuHeatAlarm {
+    out "?alarmh";
+    in "<alarmh %{0|1}";
+}
+
+getPsuVoltAlarm {
+    out "?alarmv";
+    in "<alarmv %{0|1}";
+}
+
+getCWFlow {
+    out "?CWflow";
+    in "<CWflow %{0|1}";
+}
+
+clearAlarms {
+    out ">ackAlarm";
+    in "<ack";
+}
+
+arbitrary {
+    out "%(\$1ARBITRARY:SP)#s";
+	ExtraInput = Ignore;
+	# Will always get a reply of some sort to a correct command.
+	in "%(\$1ARBITRARY)#512s";
+}
