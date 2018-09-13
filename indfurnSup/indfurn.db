@@ -469,110 +469,75 @@ record(bo, "$(P)PSU:HF:SP") {
     field(SDIS, "$(P)DISABLE")
 }
 
+record(bi, "$(P)PID:RUNNING") {
+    field(DESC, "PID controller run status")
+    field(INP, "@indfurn.proto getRunStatus $(PORT)")
+    field(DTYP, "stream")
+    field(SCAN, "1 second")
+    field(ZNAM, "Stopped")
+    field(ONAM, "Running")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:PID:RUNNING")
+    field(SDIS, "$(P)DISABLE")
+    
+    info(archive, "VAL")
+    info(interest, "LOW")
+}
+
+record(bo, "$(P)PID:RUNNING:SP") {
+    field(OUT, "@indfurn.proto setPidRunning $(PORT)")
+    field(DTYP, "stream")
+    field(ZNAM, "Stopped")
+    field(ONAM, "Running")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:PID:RUNNING:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
 #
 # Simulation records
 #
 
-record(stringout, "$(P)SIM:VERSION") {
-    field(VAL, "INDFURN RECSIM")
-    field(PINI, "YES")
-}
+record(stringout, "$(P)SIM:VERSION") {}
 
-record(ao, "$(P)SIM:TEMP") {
-    field(VAL, "0")
-    field(PINI, "YES")
-}
+record(ao, "$(P)SIM:PIPE:TEMP") {}
+record(ao, "$(P)SIM:CAPACITOR:TEMP") {}
+record(ao, "$(P)SIM:FET:TEMP") {}
 
-record(ao, "$(P)SIM:PIPE:TEMP") {
-    field(VAL, "0")
-    field(PINI, "YES")
-}
-
-record(ao, "$(P)SIM:CAPACITOR:TEMP") {
-    field(VAL, "0")
-    field(PINI, "YES")
-}
-
-record(ao, "$(P)SIM:FET:TEMP") {
-    field(VAL, "0")
-    field(PINI, "YES")
-}
-
+record(ao, "$(P)SIM:TEMP") {}
 alias("$(P)SIM:TEMP", "$(P)SIM:TEMP:SP")
 alias("$(P)SIM:TEMP", "$(P)SIM:TEMP:SP:RBV")
 
-record(ao, "$(P)SIM:SAMPLETIME") {
-    field(VAL, "0")
-    field(PINI, "YES")
-}
-
+record(ao, "$(P)SIM:SAMPLETIME") {}
 alias("$(P)SIM:SAMPLETIME", "$(P)SIM:SAMPLETIME:SP")
 
-record(ao, "$(P)SIM:PID:LIMIT:LOWER") {
-    field(VAL, "0")
-    field(PINI, "YES")
-}
-
+record(ao, "$(P)SIM:PID:LIMIT:LOWER") {}
 alias("$(P)SIM:PID:LIMIT:LOWER", "$(P)SIM:PID:LIMIT:LOWER:SP")
 
-record(ao, "$(P)SIM:OUTPUT") {
-    field(VAL, "0")
-    field(PINI, "YES")
-}
-
+record(ao, "$(P)SIM:OUTPUT") {}
 alias("$(P)SIM:OUTPUT", "$(P)SIM:OUTPUT:SP")
 
-record(ao, "$(P)SIM:PID:LIMIT:UPPER") {
-    field(VAL, "0")
-    field(PINI, "YES")
-}
-
+record(ao, "$(P)SIM:PID:LIMIT:UPPER") {}
 alias("$(P)SIM:PID:LIMIT:UPPER", "$(P)SIM:PID:LIMIT:UPPER:SP")
 
-record(bo, "$(P)SIM:PID:DIRECTION") {
-    field(ZNAM, "Heating")
-    field(ONAM, "Cooling")
-}
-
+record(bo, "$(P)SIM:PID:DIRECTION") {}
 alias("$(P)SIM:PID:DIRECTION", "$(P)SIM:PID:DIRECTION:SP")
 
-record(bo, "$(P)SIM:PID:MODE") {
-    field(ZNAM, "Automatic")
-    field(ONAM, "Manual")
-}
+record(bo, "$(P)SIM:PID:RUNNING:SP") {}
+alias("$(P)SIM:PID:RUNNING:SP", "$(P)SIM:PID:RUNNING")
 
+record(bo, "$(P)SIM:PID:MODE") {}
 alias("$(P)SIM:PID:MODE", "$(P)SIM:PID:MODE:SP")
 
-record(ao, "$(P)SIM:PSU:VOLT") {
-    field(VAL, "0")
-    field(PINI, "YES")
-}
-
+record(ao, "$(P)SIM:PSU:VOLT") {}
 alias("$(P)SIM:PSU:VOLT", "$(P)SIM:PSU:VOLT:SP")
 
-record(ao, "$(P)SIM:PSU:CURR") {
-    field(VAL, "0")
-    field(PINI, "YES")
-}
-
+record(ao, "$(P)SIM:PSU:CURR") {}
 alias("$(P)SIM:PSU:CURR", "$(P)SIM:PSU:CURR:SP")
 
-record(bo, "$(P)SIM:PSU:CONTROLMODE:SP") {
-    field(ZNAM, "Local")
-    field(ONAM, "Remote")
-}
-
-record(bo, "$(P)SIM:PSU:POWER:SP") {
-    field(ZNAM, "Off")
-    field(ONAM, "On")
-}
-
-record(bo, "$(P)SIM:PSU:FAN:SP") {
-    field(ZNAM, "Off")
-    field(ONAM, "On")
-}
-
-record(bo, "$(P)SIM:PSU:HF:SP") {
-    field(ZNAM, "Off")
-    field(ONAM, "On")
-}
+record(bo, "$(P)SIM:PSU:CONTROLMODE:SP") {}
+record(bo, "$(P)SIM:PSU:POWER:SP") {}
+record(bo, "$(P)SIM:PSU:FAN:SP") {}
+record(bo, "$(P)SIM:PSU:HF:SP") {}

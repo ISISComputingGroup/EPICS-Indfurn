@@ -211,3 +211,13 @@ setHf {
     out ">osc%{OFF|ON}";
     in "<ack";
 }
+
+setPidRunning {
+    out ">pid%{STP|RUN}";
+    in "<ack";
+}
+
+getRunStatus {
+    out "?pidRUN";
+    in "<%*{pid|th}%{0|1}";
+}
