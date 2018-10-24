@@ -429,7 +429,7 @@ record(ai, "$(P)COOLINGWATER:FLOW") {
     field(INP, "@indfurn.proto getCwFlow $(PORT)")
     field(DTYP, "stream")
     field(PREC, "2")
-    field(EGU, "ml/min")
+    field(EGU, "mL/min")
     info(archive, "VAL")
     field(HIGH, "10000")
     field(LOW, "100")
