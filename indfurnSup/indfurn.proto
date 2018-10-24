@@ -1,7 +1,11 @@
 Terminator = CR LF;
 
+ReadTimeout = 2000;
+ReplyTimeout = 5000;
+
 getVersion {
     out "?ver";
+    in "<%(\$1)#s";
     in "<%#s";
 }
 
@@ -60,29 +64,38 @@ getD {
 }
 
 setP {
-    out ">pidTu %2f %(\$1I)2f %(\$1D)2f";
-    in "<ack";
+    # Update PID params from hardware to ensure we don't send stale values
     out "?pidTu";
     in "<pidtu %(\$1P)f %(\$1I)f %(\$1D)f";
+    
+    # Do the send
+    out ">pidTu %2f %(\$1I)2f %(\$1D)2f";
+    in "<ack";
 }
 
 setI {
-    out ">pidTu %(\$1P)2f %2f %(\$1D)2f";
-    in "<ack";
+    # Update PID params from hardware to ensure we don't send stale values
     out "?pidTu";
     in "<pidtu %(\$1P)f %(\$1I)f %(\$1D)f";
+    
+    # Do the send
+    out ">pidTu %(\$1P)2f %2f %(\$1D)2f";
+    in "<ack";
 }
 
 setD {
-    out ">pidTu %(\$1P)2f %(\$1I)2f %2f";
-    in "<ack";
+    # Update PID params from hardware to ensure we don't send stale values
     out "?pidTu";
     in "<pidtu %(\$1P)f %(\$1I)f %(\$1D)f";
+    
+    # Do the send
+    out ">pidTu %(\$1P)2f %(\$1I)2f %2f";
+    in "<ack";
 }
 
 getSampleTime {
     out "?pidSt";
-    in "<pidSt %i";
+    in "<pidst %i";
 }
 
 setSampleTime {
@@ -92,62 +105,67 @@ setSampleTime {
 
 getPidDir {
     out "?pidDir";
-    in "<pidDir %{p|n}";
+    in "<piddir %{p|n}";
 }
 
 setPidDir {
-    out ">pidDir %{p|n}";
+    out ">pidDir %{DIR|REV}";
     in "<ack";
 }
 
 getPidLowerLimit {
     out "?pidOUTL";
-    in "<pidoutl %f %*f";
+    in "<PID out limit min max: %f %*f";
 }
 
 setPidLowerLimit {
+    out "?pidOUTL";
+    in "<PID out limit min max: %(\$1PID:LIMIT:LOWER)f %(\$1PID:LIMIT:UPPER)f";
     out ">pidOUTL %2f %(\$1PID:LIMIT:UPPER)2f";
     in "<ack";
-    out "?pidOUTL";
-    in "<pidoutl %(\$1PID:LIMIT:LOWER)f %(\$1PID:LIMIT:UPPER)f";
 }
 
 
 getPidUpperLimit {
     out "?pidOUTL";
-    in "<pidoutl %*f %f";
+    in "<PID out limit min max: %*f %f";
 }
 
 setPidUpperLimit {
+    out "?pidOUTL";
+    in "<PID out limit min max: %(\$1PID:LIMIT:LOWER)f %(\$1PID:LIMIT:UPPER)f";
     out ">pidOUTL %(\$1PID:LIMIT:LOWER)2f %2f";
     in "<ack";
-    out "?pidOUTL";
-    in "<pidoutl %(\$1PID:LIMIT:LOWER)f %(\$1PID:LIMIT:UPPER)f";
 }
 
 getPidMode {
-    out "?pidMode";
-    in "<pidMode %{a|m}";
+    out "?pidMODE";
+    in "<pmode %{a|m}";
 }
 
 setPidMode {
-    out ">pidMode %{a|m}";
+    out ">pidMODE %{a|m}";
     in "<ack";
 }
 
 getPsuHeatAlarm {
     out "?alarmh";
-    in "<alarmh %{0|1}";
+    in "<%{off|on}";
 }
 
 getPsuVoltAlarm {
     out "?alarmv";
-    in "<alarmv %{0|1}";
+    in "<%{off|on}";
 }
 
-getCWFlow {
-    out "?CWflow";
-    in "<CWflow %{0|1}";
+getCwStatus {
+    out "?flowSt";
+    in "<%{nok|ok}";
+}
+
+getCwFlow {
+    out "?flowCw";
+    in "<flow %f";
 }
 
 clearAlarms {
@@ -157,9 +175,11 @@ clearAlarms {
 
 arbitrary {
     out "%(\$1ARBITRARY:SP)#s";
-	ExtraInput = Ignore;
+	InTerminator = "";
+    ReadTimeout = 500;
+    ReplyTimeout = 500;
 	# Will always get a reply of some sort to a correct command.
-	in "%(\$1ARBITRARY)#512s";
+	in "%(\$1ARBITRARY)32768c";
 }
 
 setPsuVoltage {
@@ -188,6 +208,9 @@ setOutput {
 }
 
 getOutput {
+    InTerminator = "";
+    ReadTimeout = 200;
+    
     out "?pidOUTM";
     in "<pidoutm %f";
 }
@@ -197,9 +220,19 @@ setControlMode {
     in "<ack";
 }
 
+getControlMode {
+    out "?powRL";
+    in "<%{local|remote}";
+}
+
 setPsuPower {
     out ">pow%{OFF|ON}";
     in "<ack";
+}
+
+getPsuPower {
+    out "?powOnOff";
+    in "<%{off|on}"
 }
 
 setPsuFan {
@@ -207,9 +240,19 @@ setPsuFan {
     in "<ack";
 }
 
+getPsuFan {
+    out "?fanOnOff";
+    in "<%{off|on}";
+}
+
 setHf {
     out ">osc%{OFF|ON}";
     in "<ack";
+}
+
+getHf {
+    out "?oscOnOff";
+    in "<%{off|on}";
 }
 
 setPidRunning {
@@ -219,5 +262,5 @@ setPidRunning {
 
 getRunStatus {
     out "?pidRUN";
-    in "<%*{pid|th}%{0|1}";
+    in "<%{off|on}";
 }
