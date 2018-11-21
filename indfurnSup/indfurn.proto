@@ -208,9 +208,6 @@ setOutput {
 }
 
 getOutput {
-    InTerminator = "";
-    ReadTimeout = 200;
-    
     out "?pidOUTM";
     in "<pidoutm %f";
 }
@@ -263,4 +260,17 @@ setPidRunning {
 getRunStatus {
     out "?pidRUN";
     in "<%{off|on}";
+}
+
+start {
+    out ">start %(\$1TEMP:SP:RBV)f";
+    in "<ack";
+    in "<ack";
+    in "<ack";
+
+}
+
+stop {
+    out ">stop";
+    in "<ack";
 }

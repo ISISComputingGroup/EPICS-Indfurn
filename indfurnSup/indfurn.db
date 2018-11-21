@@ -611,6 +611,16 @@ record(bo, "$(P)PID:RUNNING:SP") {
     field(SDIS, "$(P)DISABLE")
 }
 
+record(bo, "$(P)EXP:START") {
+    field(OUT, "@indfurn.proto start($(P)) $(PORT)")
+    field(DTYP, "stream")
+}
+
+record(bo, "$(P)EXP:STOP") {
+    field(OUT, "@indfurn.proto stop $(PORT)")
+    field(DTYP, "stream")
+}
+
 #
 # Simulation records
 #
