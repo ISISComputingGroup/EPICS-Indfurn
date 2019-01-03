@@ -390,6 +390,9 @@ record(bi, "$(P)ALARM:PSUTEMP") {
     field(OSV, "MAJOR")
     info("ALARM", "INDFURN")
     info(archive, "VAL")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:ALARM:PSUTEMP")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(bi, "$(P)ALARM:PSUVOLT") {
@@ -402,6 +405,9 @@ record(bi, "$(P)ALARM:PSUVOLT") {
     field(OSV, "MAJOR")
     info("ALARM", "INDFURN")
     info(archive, "VAL")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:ALARM:PSUVOLT")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(bo, "$(P)ALARM:CLEAR") {
@@ -409,6 +415,9 @@ record(bo, "$(P)ALARM:CLEAR") {
     field(DTYP, "stream")
     field(ZNAM, "CLEAR")
     field(ONAM, "CLEAR")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:ALARM:CLEAR")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(bi, "$(P)COOLINGWATER:STATUS") {
@@ -421,6 +430,9 @@ record(bi, "$(P)COOLINGWATER:STATUS") {
     field(ZSV, "MAJOR")
     info("ALARM", "INDFURN")
     info(archive, "VAL")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:COOLINGWATER:STATUS")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(ai, "$(P)COOLINGWATER:FLOW") {
@@ -435,6 +447,9 @@ record(ai, "$(P)COOLINGWATER:FLOW") {
     field(LOW, "100")
     field(HSV, "MAJOR")
     field(LSV, "MAJOR")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:COOLINGWATER:FLOW")
+    field(SDIS, "$(P)DISABLE")
 }
 
 
@@ -614,11 +629,17 @@ record(bo, "$(P)PID:RUNNING:SP") {
 record(bo, "$(P)EXP:START") {
     field(OUT, "@indfurn.proto start($(P)) $(PORT)")
     field(DTYP, "stream")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:EXP:START")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(bo, "$(P)EXP:STOP") {
     field(OUT, "@indfurn.proto stop $(PORT)")
     field(DTYP, "stream")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:EXP:STOP")
+    field(SDIS, "$(P)DISABLE")
 }
 
 #
@@ -673,3 +694,17 @@ alias("$(P)SIM:PSU:FAN:SP", "$(P)SIM:PSU:FAN")
 
 record(bo, "$(P)SIM:PSU:HF:SP") {}
 alias("$(P)SIM:PSU:HF:SP", "$(P)SIM:PSU:HF")
+
+record(bo, "$(P)SIM:EXP:STOP") {}
+
+record(ai, "$(P)SIM:COOLINGWATER:FLOW") {}
+
+record(bo, "$(P)SIM:ALARM:CLEAR") {}
+
+record(bi, "$(P)SIM:ALARM:PSUTEMP") {}
+
+record(bi, "$(P)SIM:COOLINGWATER:STATUS") {}
+
+record(bi, "$(P)SIM:ALARM:PSUVOLT") {}
+
+record(bo, "$(P)SIM:EXP:START") {}
