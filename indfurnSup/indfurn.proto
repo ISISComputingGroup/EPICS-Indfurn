@@ -27,6 +27,12 @@ getTcTemp {
     in "<temptc %f";
 }
 
+# Temperature of thermocouple 2
+getTc2Temp {
+    out "?tmpTC2";
+    in "<temptc2 %f";
+}
+
 # pipe temp. from tmp36 AnalogDevices   
 getPipeTemp {
     out "?tempP";
@@ -232,13 +238,13 @@ getPsuPower {
     in "<%{off|on}"
 }
 
-setPsuFan {
-    out ">fan%{OFF|ON}";
+setLed {
+    out ">led%{OFF|ON}";
     in "<ack";
 }
 
-getPsuFan {
-    out "?fanOnOff";
+getLed {
+    out "?ledOnOff";
     in "<%{off|on}";
 }
 
@@ -273,4 +279,14 @@ start {
 stop {
     out ">stop";
     in "<ack";
+}
+
+setSampHolder {
+    out ">sHold %{aluminium|glassy_carbon|graphite|quartz|single_crystal_sapphire|steel|vanadium}";
+    in "<ack";
+}
+
+getSampHolder {
+    out "?sHold";
+    in "<%{aluminium|glassy_carbon|graphite|quartz|single_crystal_sapphire|steel|vanadium}";
 }

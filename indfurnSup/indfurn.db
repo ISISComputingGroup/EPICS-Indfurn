@@ -91,6 +91,27 @@ record(ai, "$(P)TEMP:SP:RBV") {
     info(archive, "VAL")
 }
 
+record(ai, "$(P)SAMPLE:TEMP") {
+    field(DESC, "Sample Temperature")
+    field(SCAN, "1 second")
+    field(INP, "@indfurn.proto getTc2Temp $(PORT)")
+    field(DTYP, "stream")
+    field(PREC, "2")
+    field(EGU, "C")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:TEMP")
+    field(SDIS, "$(P)DISABLE")
+    
+    field(HIGH, "1801")
+    field(LOW, "10")
+    field(HSV, "MAJOR")
+    field(LSV, "MAJOR")
+    
+    info(archive, "VAL")
+    info(interest, "HIGH")
+}
+
 
 
 # Diagnostic temperatures
@@ -496,6 +517,8 @@ record(bo, "$(P)PSU:CONTROLMODE:SP") {
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:PSU:CONTROLMODE:SP")
     field(SDIS, "$(P)DISABLE")
+    
+    field(FLNK, "$(P)PSU:CONTROLMODE")
 }
 
 record(bi, "$(P)PSU:CONTROLMODE") {
@@ -525,6 +548,7 @@ record(bo, "$(P)PSU:POWER:SP") {
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:PSU:POWER:SP")
     field(SDIS, "$(P)DISABLE")
+    field(FLNK, "$(P)PSU:POWER")
 }
 
 record(bi, "$(P)PSU:POWER") {
@@ -541,35 +565,33 @@ record(bi, "$(P)PSU:POWER") {
     info(archive, "VAL")
 }
 
-record(bo, "$(P)PSU:FAN:SP") {
-    field(DESC, "Power supply fan status")
-    field(OUT, "@indfurn.proto setPsuFan $(PORT)")
+record(bo, "$(P)LED:SP") {
+    field(DESC, "Sample area LED light")
+    field(OUT, "@indfurn.proto setLed $(PORT)")
     field(DTYP, "stream")
     field(ZNAM, "Off")
     field(ONAM, "On")
-    field(ZSV, "MAJOR")
     
     field(SIML, "$(P)SIM")
-    field(SIOL, "$(P)SIM:PSU:FAN:SP")
+    field(SIOL, "$(P)SIM:LED:SP")
     field(SDIS, "$(P)DISABLE")
     
     info(alarm, "INDFURN")
+    field(FLNK, "$(P)LED")
 }
 
-record(bi, "$(P)PSU:FAN") {
-    field(DESC, "Power supply fan status")
-    field(INP, "@indfurn.proto getPsuFan $(PORT)")
+record(bi, "$(P)LED") {
+    field(DESC, "Sample area LED light")
+    field(INP, "@indfurn.proto getLed $(PORT)")
     field(SCAN, "2 second")
     field(DTYP, "stream")
     field(ZNAM, "Off")
-    field(ZSV, "MAJOR")
     field(ONAM, "On")
     
     field(SIML, "$(P)SIM")
-    field(SIOL, "$(P)SIM:PSU:FAN")
+    field(SIOL, "$(P)SIM:LED")
     field(SDIS, "$(P)DISABLE")
-    
-    info(alarm, "INDFURN")
+
     info(archive, "VAL")
 }
 
@@ -583,6 +605,8 @@ record(bo, "$(P)PSU:HF:SP") {
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:PSU:HF:SP")
     field(SDIS, "$(P)DISABLE")
+    
+    field(FLNK, "$(P)PSU:HF")
 }
 
 record(bi, "$(P)PSU:HF") {
@@ -594,7 +618,7 @@ record(bi, "$(P)PSU:HF") {
     field(ONAM, "On")
     
     field(SIML, "$(P)SIM")
-    field(SIOL, "$(P)SIM:PSU:FAN")
+    field(SIOL, "$(P)SIM:LED")
     field(SDIS, "$(P)DISABLE")
     info(archive, "VAL")
 }
@@ -624,6 +648,8 @@ record(bo, "$(P)PID:RUNNING:SP") {
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:PID:RUNNING:SP")
     field(SDIS, "$(P)DISABLE")
+    
+    field(FLNK, "$(P)PID:RUNNING")
 }
 
 record(bo, "$(P)EXP:START") {
@@ -640,6 +666,57 @@ record(bo, "$(P)EXP:STOP") {
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:EXP:STOP")
     field(SDIS, "$(P)DISABLE")
+}
+
+record(mbbi, "$(P)SAMPLEHOLDER") {
+    field(INP, "@indfurn.proto getSampHolder $(PORT)")
+    field(DTYP, "stream")
+    field(SCAN, "5 second")
+    field(ZRST, "Aluminium")
+    field(ZRVL, "0")
+    field(ONST, "Glassy Carbon")
+    field(ONVL, "1")
+    field(TWST, "Graphite")
+    field(TWVL, "2")
+    field(THST, "Quartz")
+    field(THVL, "3")
+    field(FRST, "Single Crystal Sapphire")
+    field(FRVL, "4")
+    field(FVST, "Steel")
+    field(FVVL, "5")
+    field(SXST, "Vanadium")
+    field(SXVL, "6")
+    info(interest, "HIGH")
+    info(archive, "VAL")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:SAMPLEHOLDER")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(mbbo, "$(P)SAMPLEHOLDER:SP") {
+    field(OUT, "@indfurn.proto setSampHolder $(PORT)")
+    field(DTYP, "stream")
+    field(ZRST, "Aluminium")
+    field(ZRVL, "0")
+    field(ONST, "Glassy Carbon")
+    field(ONVL, "1")
+    field(TWST, "Graphite")
+    field(TWVL, "2")
+    field(THST, "Quartz")
+    field(THVL, "3")
+    field(FRST, "Single Crystal Sapphire")
+    field(FRVL, "4")
+    field(FVST, "Steel")
+    field(FVVL, "5")
+    field(SXST, "Vanadium")
+    field(SXVL, "6")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:SAMPLEHOLDER:SP")
+    field(SDIS, "$(P)DISABLE")
+    
+    field(FLNK, "$(P)SAMPLEHOLDER")
 }
 
 #
@@ -689,11 +766,14 @@ alias("$(P)SIM:PSU:CONTROLMODE:SP", "$(P)SIM:PSU:CONTROLMODE")
 record(bo, "$(P)SIM:PSU:POWER:SP") {}
 alias("$(P)SIM:PSU:POWER:SP", "$(P)SIM:PSU:POWER")
 
-record(bo, "$(P)SIM:PSU:FAN:SP") {}
-alias("$(P)SIM:PSU:FAN:SP", "$(P)SIM:PSU:FAN")
+record(bo, "$(P)SIM:LED:SP") {}
+alias("$(P)SIM:LED:SP", "$(P)SIM:LED")
 
 record(bo, "$(P)SIM:PSU:HF:SP") {}
 alias("$(P)SIM:PSU:HF:SP", "$(P)SIM:PSU:HF")
+
+record(mbbo, "$(P)SIM:SAMPLEHOLDER:SP") {}
+alias("$(P)SIM:SAMPLEHOLDER:SP", "$(P)SIM:SAMPLEHOLDER")
 
 record(bo, "$(P)SIM:EXP:STOP") {}
 
