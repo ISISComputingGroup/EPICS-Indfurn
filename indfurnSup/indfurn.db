@@ -32,8 +32,6 @@ record(stringin, "$(P)NAME") {
     field(DESC, "Controller name")
 }
 
-
-
 # Main device temperature
 
 record(ai, "$(P)TEMP") {
@@ -112,8 +110,6 @@ record(ai, "$(P)SAMPLE:TEMP") {
     info(interest, "HIGH")
 }
 
-
-
 # Diagnostic temperatures
 
 record(ai, "$(P)PIPE:TEMP") {
@@ -178,10 +174,6 @@ record(ai, "$(P)FET:TEMP") {
     info(archive, "VAL")
     info(interest, "LOW")
 }
-
-
-
-
 
 record(bi, "$(P)PID:DIRECTION") {
     field(DESC, "PID controller direction")

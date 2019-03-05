@@ -1,0 +1,6 @@
+file indfurn_pid.template {
+
+pattern {PORT, P, ROOT, CMD}
+{"\$(PORT)", "\$(P)", "\$(P)TC1FAULTS", "getTcFault"}
+{"\$(PORT)", "\$(P)", "\$(P)TC2FAULTS", "getTc2Fault"}
+}

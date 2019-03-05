@@ -27,6 +27,18 @@ getTcTemp {
     in "<temptc %f";
 }
 
+# Thermocouple fault status
+getTcFault {
+    out "?faultTC";
+    in "<faulttc %d";
+}
+
+# Thermocouple 2 fault status
+getTc2Fault {
+    out "?fltTC2";
+    in "<faulttc2 %d";
+}
+
 # Temperature of thermocouple 2
 getTc2Temp {
     out "?tmpTC2";
