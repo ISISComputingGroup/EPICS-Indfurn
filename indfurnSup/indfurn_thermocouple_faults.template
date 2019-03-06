@@ -1,0 +1,85 @@
+record(mbbiDirect, "$(ROOT)") {
+    field(INP, "@indfurn.proto $(CMD) $(PORT)")
+    field(SCAN, "5 second")
+    field(DTYP, "stream")
+    # B0 = Thermocouple open
+    # B1 = Over/under voltage
+    # B2 = Thermocouple too low
+    # B3 = Thermocouple too high
+    # B4 = Cold junction too low
+    # B5 = Cold junction too high
+    # B6 = Thermocouple out of range
+    # B7 = Cold junction out of range
+}
+
+record(bi, "$(ROOT):TCOPEN") {
+    field(DESC, "Thermocouple open")
+    field(INP, "$(ROOT).B0 CP MS")
+    field(ZNAM, "OK")
+    field(ONAM, "FAULT")
+    field(OSV, "MAJOR")
+    info(archive, "VAL")
+}
+
+record(bi, "$(ROOT):VOLTRANGE") {
+    field(DESC, "Over/under voltage")
+    field(INP, "$(ROOT).B1 CP MS")
+    field(ZNAM, "OK")
+    field(ONAM, "FAULT")
+    field(OSV, "MAJOR")
+    info(archive, "VAL")
+}
+
+record(bi, "$(ROOT):TCLOW") {
+    field(DESC, "Thermocouple too low")
+    field(INP, "$(ROOT).B2 CP MS")
+    field(ZNAM, "OK")
+    field(ONAM, "FAULT")
+    field(OSV, "MAJOR")
+    info(archive, "VAL")
+}
+
+record(bi, "$(ROOT):TCHIGH") {
+    field(DESC, "Thermocouple too high")
+    field(INP, "$(ROOT).B3 CP MS")
+    field(ZNAM, "OK")
+    field(ONAM, "FAULT")
+    field(OSV, "MAJOR")
+    info(archive, "VAL")
+}
+
+record(bi, "$(ROOT):CJLOW") {
+    field(DESC, "Cold junction too low")
+    field(INP, "$(ROOT).B4 CP MS")
+    field(ZNAM, "OK")
+    field(ONAM, "FAULT")
+    field(OSV, "MAJOR")
+    info(archive, "VAL")
+}
+
+record(bi, "$(ROOT):CJHIGH") {
+    field(DESC, "Cold junction too high")
+    field(INP, "$(ROOT).B5 CP MS")
+    field(ZNAM, "OK")
+    field(ONAM, "FAULT")
+    field(OSV, "MAJOR")
+    info(archive, "VAL")
+}
+
+record(bi, "$(ROOT):TCRANGE") {
+    field(DESC, "Thermocouple out of range")
+    field(INP, "$(ROOT).B6 CP MS")
+    field(ZNAM, "OK")
+    field(ONAM, "FAULT")
+    field(OSV, "MAJOR")
+    info(archive, "VAL")
+}
+
+record(bi, "$(ROOT):CJRANGE") {
+    field(DESC, "Cold junction out of range")
+    field(INP, "$(ROOT).B7 CP MS")
+    field(ZNAM, "OK")
+    field(ONAM, "FAULT")
+    field(OSV, "MAJOR")
+    info(archive, "VAL")
+}
